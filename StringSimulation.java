@@ -6,8 +6,8 @@ import org.opensourcephysics.controls.*;
 import org.opensourcephysics.display.*;
 import org.opensourcephysics.frames.*;
 
-public class BungeeSimulation extends AbstractSimulation {
-	BungeeCord bungee = new BungeeCord();
+public class StringSimulation extends AbstractSimulation {
+	PhysicsString bungee = new PhysicsString();
 	Trail bungeetrail = new Trail();
 	DisplayFrame frame = new DisplayFrame( "X", "Height","Bungee Jump");
 	Circle boy  = new Circle();
@@ -74,7 +74,7 @@ public class BungeeSimulation extends AbstractSimulation {
 		
 	}
 	public static void main (String[] args) {
-		SimulationControl.createApp(new BungeeSimulation());
+		SimulationControl.createApp(new StringSimulation());
 	}
 
 }

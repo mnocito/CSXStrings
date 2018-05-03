@@ -1,6 +1,6 @@
 package stringsLKMN;
 
-public class BungeeCord {
+public class PhysicsString {
 	int n; //number of sections of bungee cord
 	double mass;//mass of the bungee cord
 	double length; //length of the bungee cord
