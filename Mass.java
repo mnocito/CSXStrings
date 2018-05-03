@@ -31,6 +31,9 @@ public class Mass extends Circle {
 	public void setA(double a) {
 		this.a = a;
 	}
-
+	public double getDistance (Mass mass2) {
+		double distance = Math.sqrt(Math.pow((getX()-mass2.getX()), 2) + Math.pow((getY()-mass2.getY()), 2));
+		return distance;
+	}
 	
 }
