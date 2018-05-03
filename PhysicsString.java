@@ -37,38 +37,51 @@ public class PhysicsString {
 		return length / (double) n;
 	}
 	public void update(double timestep) {
-		//System.out.println("mass: " + Math.abs(masses[1].getY() - masses[0].getY()));
-		//System.out.println(getInitialSpringLength());
-		masses[0].setA(((masses[0].getMass() * g) + (((double) n * k) * (Math.abs(masses[1].getY() - masses[0].getY()) - getInitialSpringLength()))) / masses[0].getMass());		
+
+		masses[0].setAx(((masses[0].getMass() * g) + (((double) n * k) * (Math.abs(masses[1].getY() - masses[0].getY()) - getInitialSpringLength()))) / masses[0].getMass());		
+		masses[0].setAy(((masses[0].getMass() * g) + (((double) n * k) * (Math.abs(masses[1].getY() - masses[0].getY()) - getInitialSpringLength()))) / masses[0].getMass());		
+
 		for (int i = 1; i < n - 1; i++) {
-		//	System.out.println("mass" + i + ": " + Math.abs(masses[i].getY() - masses[i - 1].getY()) );
-		//	System.out.println(getInitialSpringLength());
-			masses[i].setA(((masses[i].getMass() * g) - (((double) n * k) * (Math.abs(masses[i].getY() - masses[i - 1].getY()) - getInitialSpringLength())) + (((double) n * k) * (Math.abs(masses[i + 1].getY() - masses[i].getY()) - getInitialSpringLength()))) / masses[i].getMass());
+			masses[i].setAx(((masses[i].getMass() * g) - (((double) n * k) * (Math.abs(masses[i].getY() - masses[i - 1].getY()) - getInitialSpringLength())) + (((double) n * k) * (Math.abs(masses[i + 1].getY() - masses[i].getY()) - getInitialSpringLength()))) / masses[i].getMass());
+			masses[i].setAy(((masses[i].getMass() * g) - (((double) n * k) * (Math.abs(masses[i].getY() - masses[i - 1].getY()) - getInitialSpringLength())) + (((double) n * k) * (Math.abs(masses[i + 1].getY() - masses[i].getY()) - getInitialSpringLength()))) / masses[i].getMass());
+
 		}
-		masses[0].setV(masses[0].getV() + masses[0].getA() * timestep);	
+		masses[0].setVx(masses[0].getVx() + masses[0].getAx() * timestep);	
+		masses[0].setVy(masses[0].getVy() + masses[0].getAy() * timestep);	
+
 		for (int i = 1; i < n - 1; i++) {
-			masses[i].setV(masses[i].getV() + masses[i].getA() * timestep);	
+			masses[i].setVx(masses[i].getVx() + masses[i].getAx() * timestep);
+			masses[i].setVy(masses[i].getVy() + masses[i].getAy() * timestep);	
+
 		}
-		masses[0].setXY(0, masses[0].getY() + masses[0].getV() * timestep);
-		if (masses[0].getY() >= masses[1].getY()) {
-			masses[0].setY(masses[1].getY());
-		}
+		masses[0].setX(masses[0].getX() + masses[0].getVx() * timestep);
+		masses[0].setY(masses[0].getY() + masses[0].getVy() * timestep);
+
+//		if (masses[0].getY() >= masses[1].getY()) {
+//			masses[0].setY(masses[1].getY());
+//		}
 		for (int i = 1; i < n - 1; i++) {
-			masses[i].setXY(0, masses[i].getY() + masses[i].getV() * timestep);
-			if (masses[i].getY() >= masses[i + 1].getY()) {
-				masses[i].setY(masses[i + 1].getY());
-			}	
+			masses[i].setX(masses[i].getX() + masses[i].getVx() * timestep);
+			masses[i].setY(masses[i].getY() + masses[i].getVy() * timestep);
+
+//			if (masses[i].getY() >= masses[i + 1].getY()) {
+//				masses[i].setY(masses[i + 1].getY());
+//			}	
 		}
 
 	}
 	public void updateVelocities(double timestep) {
 		for (int i = 0; i < n; i++) {
-			masses[i].setV(masses[i].getV() + masses[i].getA() * timestep);
+			masses[i].setVx(masses[i].getVx() + masses[i].getAx() * timestep);
+			masses[i].setVy(masses[i].getVy() + masses[i].getAy() * timestep);
+
 		}
 	}
 	public void updatePositions(double timestep) {
 		for (int i = 0; i < n; i++) {
-			masses[i].setXY(0, masses[i].getY() + masses[i].getV() * timestep);
+			masses[i].setX(masses[i].getX() + masses[i].getVx() * timestep);
+			masses[i].setY(masses[i].getY() + masses[i].getVy() * timestep);
+
 		}
 	}
 	

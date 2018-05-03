@@ -4,14 +4,19 @@ import org.opensourcephysics.display.Circle;
 
 public class Mass extends Circle {
 	private double mass;
-	private double v;
-	private double a;
+	private double vx;
+	private double vy;
+	
+	private double ax;
+	private double ay;
 
 
-	public Mass (double mass, double v, double a) {
+	public Mass (double mass, double vx, double vy, double ax, double ay) {
 		this.mass = mass;
-		this.v = v;
-		this.a = a;
+		this.vx = vx;
+		this.vy = vy;
+		this.ax = ax;
+		this.ay = ay;
 	}
 	public double getMass() {
 		return mass;
@@ -19,17 +24,29 @@ public class Mass extends Circle {
 	public void setMass(double mass) {
 		this.mass = mass;
 	}
-	public double getV() {
-		return v;
+	public double getVx() {
+		return vx;
 	}
-	public void setV(double v) {
-		this.v = v;
+	public void setVx(double vx) {
+		this.vx = vx;
 	}
-	public double getA() {
-		return a;
+	public double getVy() {
+		return vy;
 	}
-	public void setA(double a) {
-		this.a = a;
+	public void setVy(double vy) {
+		this.vy = vy;
+	}
+	public double getAx() {
+		return ax;
+	}
+	public void setAx(double ax) {
+		this.ax = ax;
+	}
+	public double getAy() {
+		return ay;
+	}
+	public void setAy(double ay) {
+		this.ay = ay;
 	}
 	public double getDistance (Mass mass2) {
 		double distance = Math.sqrt(Math.pow((getX()-mass2.getX()), 2) + Math.pow((getY()-mass2.getY()), 2));
