@@ -39,6 +39,8 @@ public class StringSimulation extends AbstractSimulation {
 			bungee.masses[i].pixRadius = 3;
 			frame.addDrawable(bungee.masses[i]);
 			bungee.masses[i].setXY((((bungee.getLength()/(bungee.getN())) * (double) (i))), 0);
+			bungee.masses[i].setK(bungee.getInitialK());
+			bungee.masses[i].setLength(bungee.getInitialSpringLength());
 		}
 		this.setDelayTime(1);
 	}

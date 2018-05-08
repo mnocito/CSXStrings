@@ -37,11 +37,15 @@ public class PhysicsString {
 	public double getInitialSpringLength() {
 		return length / (double) n;
 	}
-	public double getInitialMassTension() {
+	public double getInitialK() {
 		return tension / getInitialSpringLength();
 	}
 	public void update(double timestep) {
-
+		for (int i = 1; i < masses.length; i++) {
+			masses[i].setAx((-masses[i].getFx(masses[i - 1]) + masses[i].getFx(masses[i + 1])) / masses[i].getMass());
+			masses[i].setAy((-masses[i].getFy(masses[i - 1]) + masses[i].getFy(masses[i + 1])) / masses[i].getMass());
+			
+		}
 	}
 	
 }
