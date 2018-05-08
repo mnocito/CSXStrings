@@ -74,12 +74,12 @@ public class Mass extends Circle {
 	}
 	public double getFx (Mass i) {
 		fx = 0;
-		fx=k*(getDistance(i)-length)*Math.abs((getX()-i.getX())/getDistance(i));
+		fx=k*(getDistance(i)-length)*((getX()-i.getX())/getDistance(i));
 		return fx;	
 	}
 	public double getFy (Mass i) {
 		fy = 0;
-		fy=k*(getDistance(i)-length)*Math.abs((getY()-i.getY())/getDistance(i));
+		fy=k*(getDistance(i)-length)*((getY()-i.getY())/getDistance(i));
 		return fy;	
 	}
 	
