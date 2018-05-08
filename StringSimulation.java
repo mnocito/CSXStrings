@@ -12,7 +12,7 @@ public class StringSimulation extends AbstractSimulation {
 	DisplayFrame frame = new DisplayFrame( "X", "Height","Bungee Jump");
 	double positionY = 0;
 	double time = 0;
-	double timestep  = 0.001;
+	double timestep  = 0.0001;
 	double g = -9.81;
 	double[] oldVelocities;
 
@@ -21,12 +21,13 @@ public class StringSimulation extends AbstractSimulation {
 
 
 	protected void doStep() {
-		bungee.update(timestep);
-		time+=timestep;
-
+		for(int i = 0; i < 5000; i++) {
+			bungee.update(timestep);
+			time+=timestep;
+		}
 	}
 	public void initialize() {
-		frame.setVisible(true);;
+		frame.setVisible(true);
 		bungeetrail.addPoint(0, 0);
 		bungee.setN((int) control.getDouble("n"));
 		frame.setPreferredMinMax(-100, 100, -100, 100);
@@ -42,6 +43,7 @@ public class StringSimulation extends AbstractSimulation {
 			bungee.masses[i].setK(bungee.getInitialK());
 			bungee.masses[i].setLength(bungee.getInitialSpringLength());
 		}
+		bungee.masses[0].setVy(10);
 		this.setDelayTime(1);
 	}
 	public void reset() {
