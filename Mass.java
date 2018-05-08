@@ -9,7 +9,19 @@ public class Mass extends Circle {
 	
 	private double ax;
 	private double ay;
+	
+	private double fx;
+	private double fy;
+	
+	public double getLength() {
+		return length;
+	}
+	public void setLength(double length) {
+		this.length = length;
+	}
+	private double k;
 
+	private double length;
 
 	public Mass (double mass, double vx, double vy, double ax, double ay) {
 		this.mass = mass;
@@ -48,9 +60,25 @@ public class Mass extends Circle {
 	public void setAy(double ay) {
 		this.ay = ay;
 	}
+	public double getK() {
+		return k;
+	}
+	public void setK(double k) {
+		this.k = k;
+	}
 	public double getDistance (Mass mass2) {
 		double distance = Math.sqrt(Math.pow((getX()-mass2.getX()), 2) + Math.pow((getY()-mass2.getY()), 2));
 		return distance;
+	}
+	public double getFx (Mass i) {
+		fx = 0;
+		fx=k*Math.abs(getX()-i.getX());
+		return fx;	
+	}
+	public double getFy (Mass i) {
+		fy = 0;
+		fy=k*Math.abs(getY()-i.getY());
+		return fy;	
 	}
 	
 }
