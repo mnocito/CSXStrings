@@ -34,16 +34,11 @@ public class StringSimulation extends AbstractSimulation {
 		bungee.setTension(control.getDouble("tension"));
 		bungee.setMass(control.getDouble("mass"));
 		bungee.oldVelocities = new double[(int) control.getDouble("n")];
-		bungee.masses[0] = new Mass(bungee.mass / (double) bungee.n , 0, 0);
-		frame.addDrawable(bungee.masses[0]);
-		bungee.masses[0].setXY(0,  -bungee.getLength());
-		for (int i = 1; i < bungee.getN(); i++) {
-			bungee.masses[i] = new Mass(bungee.getMass()/(bungee.getN()), 0, 0);
+		for (int i = 0; i < bungee.getN(); i++) {
+			bungee.masses[i] = new Mass(bungee.getMass()/(bungee.getN()), 0, 0, 0, 0);
 			bungee.masses[i].pixRadius = 3;
 			frame.addDrawable(bungee.masses[i]);
-			bungee.masses[i].setXY(0,(-bungee.getLength()+((bungee.getLength()/(bungee.getN())) * (double) (i + 1))));
-		//	bungee.masses[1].setV(Math.sqrt(2.0 * g * (double) i * (bungee.getLength()/(bungee.getN()))));
-		//	bungee.masses[i].setV(Math.sqrt(2.0 * g * Math.abs(bungee.masses[i].getY())));
+			bungee.masses[i].setXY((((bungee.getLength()/(bungee.getN())) * (double) (i))), 0);
 		}
 		this.setDelayTime(1);
 	}
