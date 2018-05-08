@@ -41,10 +41,21 @@ public class PhysicsString {
 		return tension / getInitialSpringLength();
 	}
 	public void update(double timestep) {
-		for (int i = 1; i < masses.length; i++) {
+		masses[0].setAx((masses[0].getFx(masses[1])) / masses[0].getMass());
+		for (int i = 1; i < n; i++) {
 			masses[i].setAx((-masses[i].getFx(masses[i - 1]) + masses[i].getFx(masses[i + 1])) / masses[i].getMass());
 			masses[i].setAy((-masses[i].getFy(masses[i - 1]) + masses[i].getFy(masses[i + 1])) / masses[i].getMass());
-			
+		}
+		masses[masses.length - 1].setAx((-masses[masses.length - 1].getFx(masses[masses.length - 2])) / masses[masses.length - 1].getMass());
+		for (int i = 0; i < n; i++) {
+			masses[i].setVx(masses[i].getVx() + masses[i].getAx() * timestep);	
+			masses[i].setVy(masses[i].getVy() + masses[i].getAy() * timestep);	
+		}
+		for (int i = 0; i < n; i++) {
+			masses[i].setXY(masses[i].getX() + masses[i].getVx() * timestep, masses[i].getY() + masses[i].getVy() * timestep);
+			if (masses[i].getX() >= masses[i + 1].getX()) {
+				masses[i].setX(masses[i + 1].getX());
+			}	
 		}
 	}
 	
