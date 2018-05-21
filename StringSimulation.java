@@ -9,7 +9,7 @@ import org.opensourcephysics.frames.*;
 public class StringSimulation extends AbstractSimulation {
 	PhysicsString bungee = new PhysicsString();
 	Trail bungeetrail = new Trail();
-	DisplayFrame frame = new DisplayFrame( "X", "Height","Bungee Jump");
+	DisplayFrame frame = new DisplayFrame( "X", "Height","String Simulation");
 	double positionY = 0;
 	double time = 0;
 	double timestep  = 0.0000001;
