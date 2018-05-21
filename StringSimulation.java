@@ -23,7 +23,7 @@ public class StringSimulation extends AbstractSimulation {
 
 
 	protected void doStep() {
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 1000; i++) {
 			bungee.update(timestep, time, frequency, amplitude);
 			time+=timestep;
 		}
@@ -60,7 +60,7 @@ public class StringSimulation extends AbstractSimulation {
 		control.setAdjustableValue("mass", .01);
 		control.setAdjustableValue("total k", 100000);
 		control.setAdjustableValue("amplitude", .01);
-		control.setAdjustableValue("frequency", 100);
+		control.setAdjustableValue("frequency", 158);
 	}
 	public static void main (String[] args) {
 		SimulationControl.createApp(new StringSimulation());
