@@ -29,28 +29,37 @@ public class PaddleLK extends AbstractSimulation {
 	protected void doStep() {
 		for (int i = 0; i < 10; i++) {
 			bungee.update(timestep, time, bungee.collision, force);
+			//			if (bungee.currentlength<=.05) {
+			//				rect.setXY(0, Math.sin(time*2.0*Math.PI)*.25);
+			//			}
+//			System.out.println("slope: " + Math.abs((bungee.masses[(int) bungee.getN() - 1].getY()) / (5.0 - bungee.masses[(int) bungee.getN() - 1].getX())));
+			if(Math.abs((bungee.masses[(int) bungee.getN() - 1].getY()) / (5.0 - bungee.masses[(int) bungee.getN() - 1].getX())) <= .01 && !bungee.collide)  {
+				bungee.collide = !bungee.collide;			
+			} else if (Math.abs((bungee.masses[(int) bungee.getN() - 1].getY()) / (5.0 - bungee.masses[(int) bungee.getN() - 1].getX())) >= .01 && bungee.collide) {
+				bungee.collide = !bungee.collide;
+			}
 			time+=timestep;
 		}
-		
+
 	}
 	public void initialize() {
 		frame.setSquareAspect(false);
 		frame.clearDrawables();
 		frame.setVisible(true);
-		
+
 		force = control.getDouble("paddle force");
 		bungeetrail.addPoint(0, 0);
 		bungee.setN((int) control.getDouble("n"));
-		frame.setPreferredMinMax(-15, 15, -1.5, 1.5);
+		frame.setPreferredMinMax(-3, 3, -3, 3);
 		bungee.setLength(control.getDouble("rest length"));
 		bungee.setStartLength(control.getDouble("start length"));
-//		bungee.setTension(control.getDouble("tension"));
+		//		bungee.setTension(control.getDouble("tension"));
 		bungee.setK(control.getDouble("total k"));
 		bungee.setMass(control.getDouble("mass"));
 		bungee.oldVelocities = new double[(int) control.getDouble("n")];
 		bungee.setCollision(control.getDouble("collision constant"));
-//		 frequency = control.getDouble("frequency");
-//		 amplitude = control.getDouble("amplitude");
+		//		 frequency = control.getDouble("frequency");
+		//		 amplitude = control.getDouble("amplitude");
 		for (int i = 0; i < bungee.getN(); i++) {
 			bungee.masses[i] = new MassLK(bungee.getMass()/(bungee.getN()), 0, 0, 0, 0);
 			bungee.masses[i].pixRadius = 3;
@@ -64,7 +73,7 @@ public class PaddleLK extends AbstractSimulation {
 		bungee.masses[(int)bungee.getN()-1].color = Color.GREEN;
 		bungee.masses[(int) bungee.getN()-1].setMass(0.05);
 		bungee.masses[(int) bungee.getN()-1].setXY(bungee.getStartLength()*Math.cos(Math.toRadians(control.getDouble("launch angle"))), bungee.getStartLength()*Math.sin(Math.toRadians(control.getDouble("launch angle"))));
-//		bungee.masses[0].setVy(10);
+		//		bungee.masses[0].setVy(10);
 		this.setDelayTime(1);
 		rect.color = Color.BLUE;
 		frame.addDrawable(rect);
@@ -78,8 +87,8 @@ public class PaddleLK extends AbstractSimulation {
 		control.setAdjustableValue("launch angle",90);
 		control.setAdjustableValue("collision constant", .5);
 		control.setAdjustableValue("paddle force", 10);
-//		control.setAdjustableValue("amplitude", .01);
-//		control.setAdjustableValue("frequency", 158);
+		//		control.setAdjustableValue("amplitude", .01);
+		//		control.setAdjustableValue("frequency", 158);
 	}
 	public static void main (String[] args) {
 		SimulationControl.createApp(new PaddleLK());
