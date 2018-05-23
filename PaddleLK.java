@@ -11,6 +11,7 @@ import org.opensourcephysics.frames.DisplayFrame;
 public class PaddleLK extends AbstractSimulation {
 	StringLK bungee = new StringLK();
 	Trail bungeetrail = new Trail();
+	Trail paddle = new Trail();
 	DisplayFrame frame = new DisplayFrame( "X", "Height","String Simulation");
 	DrawableShape rect = DrawableShape.createRectangle(0,-0.025,5,.05);
 	double positionY = 0;
@@ -21,6 +22,7 @@ public class PaddleLK extends AbstractSimulation {
 	double frequency =0;
 	double amplitude =0;
 	double force = 0;
+	double paddy = 0;
 
 	//TODO: make all lengths absolute
 
@@ -28,16 +30,21 @@ public class PaddleLK extends AbstractSimulation {
 
 	protected void doStep() {
 		for (int i = 0; i < 10; i++) {
-			bungee.update(timestep, time, bungee.collision, force);
-			//			if (bungee.currentlength<=.05) {
-			//				rect.setXY(0, Math.sin(time*2.0*Math.PI)*.25);
-			//			}
-//			System.out.println("slope: " + Math.abs((bungee.masses[(int) bungee.getN() - 1].getY()) / (5.0 - bungee.masses[(int) bungee.getN() - 1].getX())));
-			if(Math.abs((bungee.masses[(int) bungee.getN() - 1].getY()) / (5.0 - bungee.masses[(int) bungee.getN() - 1].getX())) <= .01 && !bungee.collide)  {
-				bungee.collide = !bungee.collide;			
-			} else if (Math.abs((bungee.masses[(int) bungee.getN() - 1].getY()) / (5.0 - bungee.masses[(int) bungee.getN() - 1].getX())) >= .01 && bungee.collide) {
+			bungee.update(timestep, time, bungee.collision, force, paddy);
+			
+//			if(Math.abs((bungee.masses[(int) bungee.getN() - 1].getY()) / (5.0 - bungee.masses[(int) bungee.getN() - 1].getX())) <= .01 && !bungee.collide) {
+//				bungee.collide = !bungee.collide;			
+//			} else if (Math.abs((bungee.masses[(int) bungee.getN() - 1].getY()) / (5.0 - bungee.masses[(int) bungee.getN() - 1].getX())) >= .01 &&bungee.collide) {
+//				bungee.collide = !bungee.collide;
+//			}
+			
+			
+			if (bungee.masses[(int)bungee.n-1].getDistance(bungee.masses[0])<=0.01&&!bungee.collide) {
+				bungee.collide = !bungee.collide;
+			} else if (bungee.masses[(int)bungee.n-1].getDistance(bungee.masses[0])<=0.01&&bungee.collide) {
 				bungee.collide = !bungee.collide;
 			}
+			
 			time+=timestep;
 		}
 
@@ -47,6 +54,11 @@ public class PaddleLK extends AbstractSimulation {
 		frame.clearDrawables();
 		frame.setVisible(true);
 
+		paddy = control.getDouble("paddle angle");
+		if (paddy!=0) {
+			bungee.nonzero =true;
+		}
+		
 		force = control.getDouble("paddle force");
 		bungeetrail.addPoint(0, 0);
 		bungee.setN((int) control.getDouble("n"));
@@ -77,6 +89,10 @@ public class PaddleLK extends AbstractSimulation {
 		this.setDelayTime(1);
 		rect.color = Color.BLUE;
 		frame.addDrawable(rect);
+		
+		paddle.addPoint(-Math.cos(Math.toRadians(paddy)), Math.sin(Math.toRadians(paddy)));
+		paddle.addPoint(Math.cos(Math.toRadians(paddy)), -Math.sin(Math.toRadians(paddy)));
+		frame.addDrawable(paddle);
 	}
 	public void reset() {
 		control.setAdjustableValue("n",100);
@@ -87,6 +103,7 @@ public class PaddleLK extends AbstractSimulation {
 		control.setAdjustableValue("launch angle",90);
 		control.setAdjustableValue("collision constant", .5);
 		control.setAdjustableValue("paddle force", 10);
+		control.setAdjustableValue("paddle angle", 0);
 		//		control.setAdjustableValue("amplitude", .01);
 		//		control.setAdjustableValue("frequency", 158);
 	}

@@ -15,8 +15,9 @@ public class StringLK {
 	double collision = 0;
 	double currentlength =0;
 	boolean collide = false;
-	
-	
+	boolean nonzero = false;
+
+
 	public double getCurrentlength() {
 		currentlength=0;
 		for (int i = 0; i < masses.length-1; i++) {
@@ -70,64 +71,88 @@ public class StringLK {
 	public double getInitialK() {
 		return tension / getInitialSpringLength();
 	}
-	public void update(double timestep, double time, double collision, double force) {
+	public void update(double timestep, double time, double collision, double force, double paddy) {
 		for (int i = 1; i < n-1; i++) {
 			masses[i].setAx((-masses[i].getFx(masses[i - 1]) - masses[i].getFx(masses[i + 1])) / masses[i].getMass());
 			masses[i].setAy((-masses[i].getFy(masses[i - 1]) - masses[i].getFy(masses[i + 1])+(masses[i].getMass()*g)) / masses[i].getMass());
-				}
+		}
 		masses[n-1].setAx(-masses[n-1].getFx(masses[n - 2])/masses[n-1].getMass());
 		masses[n-1].setAy((-masses[n-1].getFy(masses[n - 2])+(masses[n-1].getMass()*g))/masses[n-1].getMass());
-		
-		
-		
+
+
+
 		for (int i = 0; i < n; i++) {
 			masses[i].setVx(masses[i].getVx() + masses[i].getAx() * timestep);	
 			masses[i].setVy(masses[i].getVy() + masses[i].getAy() * timestep);	
 		}
 		masses[0].setXY(0, 0);	
-		
-		if (collide) {
-			for (int i = 1; i < masses.length; i++) {
-				masses[i].setAy((-masses[i].getMass()*Math.sin(Math.toRadians(Math.atan(masses[n-1].getY()/masses[n-1].getX())))+force) / masses[i].getMass());
-				masses[i].setAx((-masses[i].getMass()*Math.cos(Math.toRadians(Math.atan(masses[n-1].getY()/masses[n-1].getX())))) / masses[i].getMass());
-			}
-//			masses[n-1].setAx(-masses[n-1].getFx(masses[n - 2])/masses[n-1].getMass());
-//			masses[n-1].setAy((-masses[n-1].getFy(masses[n - 2])+(masses[n-1].getMass()*g))/masses[n-1].getMass());
-			
-			for (int i = 1; i < masses.length; i++) {
-				masses[i].setVy(-masses[i].getVy() + masses[i].getAy() * timestep*collision);
-				masses[i].setXY(masses[i].getX() + masses[i].getVx() * timestep, masses[i].getY() + masses[i].getVy() * timestep);
-			}
-		}
-		
-//		if(masses[n-1].getY() + masses[n-1].getVy() * timestep <= masses[0].getY()) {
-////			masses[n-1].setVy(-masses[n-1].getVy()*collision);
-//			masses[n-1].setAy(( masses[n-1].getFy(masses[n-2])+(masses[n-1].getMass()*g)+force) / masses[n-1].getMass());
-//			masses[n-1].setVy(-masses[n-1].getVy() + masses[n-1].getAy() * timestep*collision);
+		//start
+//		if (collide&&nonzero) {
+//			System.out.println("true");
+//			for (int i = 1; i < masses.length; i++) {
+////				masses[i].setAy((-masses[i].getMass()*Math.sin(Math.toRadians(Math.atan(masses[n-1].getY()/masses[n-1].getX())))+(force*Math.sin(Math.toRadians(paddy)))) / masses[i].getMass());
+////				masses[i].setAx(((-masses[i].getMass()*Math.cos(Math.toRadians(Math.atan(masses[n-1].getY()/masses[n-1].getX()))))+(force*Math.cos(Math.toRadians(paddy)))) / masses[i].getMass());
+//				masses[i].setAy((-masses[i].getMass()*Math.sin(Math.toRadians(Math.atan(masses[n-1].getY()/masses[n-1].getX())))+(force)) / masses[i].getMass());
+//				masses[i].setAx(((-masses[i].getMass()*Math.cos(Math.toRadians(Math.atan(masses[n-1].getY()/masses[n-1].getX()))))) / masses[i].getMass());
+//			}
+//			//			masses[n-1].setAx(-masses[n-1].getFx(masses[n - 2])/masses[n-1].getMass());
+//			//			masses[n-1].setAy((-masses[n-1].getFy(masses[n - 2])+(masses[n-1].getMass()*g))/masses[n-1].getMass());
+//
+//			for (int i = 1; i < masses.length; i++) {
+//				masses[i].setVy(masses[i].getVy()*Math.cos(Math.toRadians(paddy))+masses[i].getVx()*Math.sin(Math.toRadians(paddy)) + masses[i].getAy() * timestep*collision);
+//				masses[i].setVx(masses[i].getVx()*Math.sin(Math.toRadians(paddy))-masses[i].getVy()*Math.cos(Math.toRadians(paddy)) + masses[i].getAx() * timestep*collision);
+//				masses[i].setXY(masses[i].getX() + masses[i].getVx() * timestep, masses[i].getY() + masses[i].getVy() * timestep);
+//			}
+//		}else if (collide&&!nonzero) {
+//			if(masses[n-1].getY() + masses[n-1].getVy() * timestep <= masses[0].getY()) {
+//				//		masses[n-1].setVy(-masses[n-1].getVy()*collision);
+//				masses[n-1].setAy(( masses[n-1].getFy(masses[n-2])+(masses[n-1].getMass()*g)+force) / masses[n-1].getMass());
+//				masses[n-1].setVy(-masses[n-1].getVy() + masses[n-1].getAy() * timestep*collision);
+//			}
+//			for (int i = 1; i < n-1; i++) {
+//				
+//					masses[i].setAy((-masses[i].getFy(masses[i - 1]) - masses[i].getFy(masses[i + 1])+(masses[i].getMass()*g)+force) / masses[i].getMass());
+//					masses[i].setVy(-masses[i].getVy() + masses[i].getAy() * timestep*collision);
+//				masses[i].setXY(masses[i].getX() + masses[i].getVx() * timestep, masses[i].getY() + masses[i].getVy() * timestep);
+//			}
+//		}else {
+//			for (int i = 0; i < masses.length; i++) {
+//				masses[i].setXY(masses[i].getX() + masses[i].getVx() * timestep, masses[i].getY() + masses[i].getVy() * timestep);	
+//			}
+//
 //		}
-//		for (int i = 1; i < n-1; i++) {
-//			if(masses[i].getY() + masses[i].getVy() * timestep <= 0) {
-//				masses[i].setAy((-masses[i].getFy(masses[i - 1]) - masses[i].getFy(masses[i + 1])+(masses[i].getMass()*g)+force) / masses[i].getMass());
-//				masses[i].setVy(-masses[i].getVy() + masses[i].getAy() * timestep*collision);
-//			}
-//			masses[i].setXY(masses[i].getX() + masses[i].getVx() * timestep, masses[i].getY() + masses[i].getVy() * timestep);
-		
-		
-//			if (masses[i].getY() >= masses[i + 1].getY()&& masses[i].getVy()>0) {
-//				masses[i].setY(masses[i + 1].getY());
-//			}
-//			if (masses[i].getX() >= masses[i + 1].getX()&&masses[i].getVx()>0) {
-//				masses[i].setX(masses[i + 1].getX());
-//			}
-//			if (masses[i].getVy()<0 && masses[i].getY()<masses[i-1].getY()) {
-//				masses[i].setX(masses[i - 1].getX());
-//			}
-//			if (masses[i].getVx()<0 && masses[i].getX()<masses[i-1].getX()) {
-//				masses[i].setX(masses[i - 1].getX());
-//			}
-			
-//		}
-//		masses[n-1].setXY(masses[n-1].getX()+masses[n-1].getVx()*timestep, masses[n-1].getY()+masses[n-1].getVy()*timestep);
+		//end
+		//start
+				if(masses[n-1].getY() + masses[n-1].getVy() * timestep <= masses[0].getY()) {
+		//			masses[n-1].setVy(-masses[n-1].getVy()*collision);
+					masses[n-1].setAy(( masses[n-1].getFy(masses[n-2])+(masses[n-1].getMass()*g)+force) / masses[n-1].getMass());
+					masses[n-1].setVy(-masses[n-1].getVy() + masses[n-1].getAy() * timestep*collision);
+				}
+				for (int i = 1; i < n-1; i++) {
+					if(masses[i].getY() + masses[i].getVy() * timestep <= 0) {
+						masses[i].setAy((-masses[i].getFy(masses[i - 1]) - masses[i].getFy(masses[i + 1])+(masses[i].getMass()*g)+force) / masses[i].getMass());
+						masses[i].setVy(-masses[i].getVy() + masses[i].getAy() * timestep*collision);
+					}
+					masses[i].setXY(masses[i].getX() + masses[i].getVx() * timestep, masses[i].getY() + masses[i].getVy() * timestep);
+				}
+				masses[n-1].setXY(masses[n-1].getX() + masses[n-1].getVx() * timestep, masses[n-1].getY() + masses[n-1].getVy() * timestep);
+					//end
+
+		//			if (masses[i].getY() >= masses[i + 1].getY()&& masses[i].getVy()>0) {
+		//				masses[i].setY(masses[i + 1].getY());
+		//			}
+		//			if (masses[i].getX() >= masses[i + 1].getX()&&masses[i].getVx()>0) {
+		//				masses[i].setX(masses[i + 1].getX());
+		//			}
+		//			if (masses[i].getVy()<0 && masses[i].getY()<masses[i-1].getY()) {
+		//				masses[i].setX(masses[i - 1].getX());
+		//			}
+		//			if (masses[i].getVx()<0 && masses[i].getX()<masses[i-1].getX()) {
+		//				masses[i].setX(masses[i - 1].getX());
+		//			}
+
+		//		}
+		//		masses[n-1].setXY(masses[n-1].getX()+masses[n-1].getVx()*timestep, masses[n-1].getY()+masses[n-1].getVy()*timestep);
 		/*timestepcounter+= up*timestep;
 		if (timestepcounter/timestep >= 25*360) {
 			up = -1;
